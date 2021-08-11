@@ -15,21 +15,18 @@ void	free_tab(char **tab)
 	}
 }
 
-void	ft_exit(t_fd *fd, char *error)
+void	ft_exit(t_struct *s, char *error)
 {
-	int	i;
-
-	i = 0;
-	if (fd->fd_infile >= 0)
-		close(fd->fd_infile);
-	if (fd->fd_outfile >= 0)
-		close(fd->fd_outfile);
-	free_tab(fd->paths);
+	if (s->fd_infile >= 0)
+		close(s->fd_infile);
+	if (s->fd_outfile >= 0)
+		close(s->fd_outfile);
+	free_tab(s->paths);
 	perror(error);
 	exit(EXIT_FAILURE);
 }
 
-void	find_command_path(t_fd *fd, char **envp)
+void	find_command_path(t_struct *s, char **envp)
 {
 	int		i;
 	char	*path;
@@ -41,51 +38,52 @@ void	find_command_path(t_fd *fd, char **envp)
 		{
 			path = ft_strdup(envp[i]);
 			if (!path)
-				ft_exit(fd, "malloc");
+				ft_exit(s, "malloc");
 		}
 		i++;
 	}
 	path += 5;
-	fd->paths = ft_split(path, ':');
+	s->paths = ft_split(path, ':');
 	path -= 5;
 	free(path);
-	if (!fd->paths)
-		ft_exit(fd, "malloc");
+	if (!s->paths)
+		ft_exit(s, "malloc");
 }
 
-void	take_arguments(t_fd *fd, int ac, char **av)
+void	take_arguments(t_struct *s, int ac, char **av)
 {
 	if (ac != 5)
 		exit(EXIT_FAILURE);
-	fd->fd_infile = open(av[1], O_RDONLY);
-	if (fd->fd_infile == -1)
-		ft_exit(fd, "open");
-	fd->fd_outfile = open(av[4], O_WRONLY);
-	if (fd->fd_outfile == -1)
-		ft_exit(fd, "open");
+	s->fd_infile = open(av[1], O_RDONLY);
+	if (s->fd_infile == -1)
+		ft_exit(s, "open");
+	s->fd_outfile = open(av[4], O_WRONLY);
+	if (s->fd_outfile == -1)
+		ft_exit(s, "open");
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	t_fd	fd;
-	pid_t	pid;
-	int		pipefd[2];
+	t_struct	s;
+	pid_t		pid;
+	int			pipefd[2];
 
-	take_arguments(&fd, ac, av);
-	find_command_path(&fd, envp);
+	take_arguments(&s, ac, av);
+	find_command_path(&s, envp);
 	if (pipe(pipefd) == 1)
-		ft_exit(&fd, "pipe");
+		ft_exit(&s, "pipe");
 	pid = fork();
 	if (pid == -1)
-		ft_exit(&fd, "fork");
+		ft_exit(&s, "fork");
 	else if (pid == 0)
-		son_fork(&fd, pipefd);
+		son_fork(&s, pipefd);
 	else
 	{
-		dad_fork(&fd, pipefd);
+		dad_fork(&s, pipefd);
 		wait(NULL);
 	}
-	close(fd.fd_infile);
-	close(fd.fd_outfile);
+	close(s.fd_infile);
+	close(s.fd_outfile);
+	free_tab(s.paths);
 	return EXIT_SUCCESS;
 }

@@ -1,13 +1,15 @@
-void	dad_fork(t_fd *fd, int pipefd[2])
+#include "pipex.h"
+
+void	dad_fork(t_struct *s, int pipefd[2])
 {
-	(void)fd;
+	(void)s;
 	(void)pipefd;
 	return ;
 }
 
-void	son_fork(t_fd *fd, int pipefd[2])
+void	son_fork(t_struct *s, int pipefd[2])
 {
-	(void)fd;
+	(void)s;
 	(void)pipefd;
 	return ;
 	//dup2
