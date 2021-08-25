@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 15:04:28 by mberne            #+#    #+#             */
-/*   Updated: 2021/03/05 10:53:40 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/08/25 11:05:43 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (++j < lens2)
 		ns[i + j] = s2[j];
 	ns[i + j] = '\0';
-	free((char *)s1);
 	return (ns);
 }

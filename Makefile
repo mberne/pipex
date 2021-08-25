@@ -2,7 +2,7 @@ NAME		= pipex
 
 #Sources
 PATH_SRCS	= srcs/
-SRCS		= $(addprefix $(PATH_SRCS), main.c forks.c)
+SRCS		= $(addprefix $(PATH_SRCS), main.c command_path.c forks.c exit.c)
 
 #Includes
 PATH_INC	= includes/

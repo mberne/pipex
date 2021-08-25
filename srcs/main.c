@@ -1,54 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/13 10:40:38 by mberne            #+#    #+#             */
+/*   Updated: 2021/08/25 11:50:45 by mberne           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
-
-void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	if (tab)
-	{
-		while (tab[i])
-			i++;
-		while (--i >= 0)
-			free(tab[i]);
-		free(tab);
-	}
-}
-
-void	ft_exit(t_struct *s, char *error)
-{
-	if (s->fd_infile >= 0)
-		close(s->fd_infile);
-	if (s->fd_outfile >= 0)
-		close(s->fd_outfile);
-	free_tab(s->paths);
-	perror(error);
-	exit(EXIT_FAILURE);
-}
-
-void	find_command_path(t_struct *s, char **envp)
-{
-	int		i;
-	char	*path;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (!ft_strncmp(envp[i], "PATH=", 5))
-		{
-			path = ft_strdup(envp[i]);
-			if (!path)
-				ft_exit(s, "malloc");
-		}
-		i++;
-	}
-	path += 5;
-	s->paths = ft_split(path, ':');
-	path -= 5;
-	free(path);
-	if (!s->paths)
-		ft_exit(s, "malloc");
-}
 
 void	take_arguments(t_struct *s, int ac, char **av)
 {
@@ -68,8 +30,10 @@ int	main(int ac, char **av, char **envp)
 	pid_t		pid;
 	int			pipefd[2];
 
+	ft_bzero(&s, sizeof(t_struct));
 	take_arguments(&s, ac, av);
-	find_command_path(&s, envp);
+	find_commands_paths(&s, envp);
+	find_good_path(&s, av);
 	if (pipe(pipefd) == 1)
 		ft_exit(&s, "pipe");
 	pid = fork();
@@ -85,5 +49,5 @@ int	main(int ac, char **av, char **envp)
 	close(s.fd_infile);
 	close(s.fd_outfile);
 	free_tab(s.paths);
-	return EXIT_SUCCESS;
+	return (EXIT_SUCCESS);
 }

@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forks.c                                            :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/13 10:40:45 by mberne            #+#    #+#             */
-/*   Updated: 2021/08/25 11:10:30 by mberne           ###   ########lyon.fr   */
+/*   Created: 2021/08/24 17:10:22 by mberne            #+#    #+#             */
+/*   Updated: 2021/08/25 11:10:21 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	son_fork(t_struct *s, int pipefd[2])
+void	free_tab(char **tab)
 {
-	(void)s;
-	(void)pipefd;
-	return ;
+	int	i;
+
+	i = 0;
+	if (tab)
+	{
+		while (tab[i])
+			i++;
+		while (--i >= 0)
+			free(tab[i]);
+		free(tab);
+	}
 }
 
-void	dad_fork(t_struct *s, int pipefd[2])
+void	ft_exit(t_struct *s, char *error)
 {
-	(void)s;
-	(void)pipefd;
-	return ;
+	if (s->fd_infile >= 0)
+		close(s->fd_infile);
+	if (s->fd_outfile >= 0)
+		close(s->fd_outfile);
+	free_tab(s->paths);
+	free_tab(s->cmd);
+	perror(error);
+	exit(EXIT_FAILURE);
 }
