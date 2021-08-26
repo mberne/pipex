@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 11:47:21 by mberne            #+#    #+#             */
-/*   Updated: 2021/08/25 11:47:46 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/08/26 13:47:13 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	test_path(t_struct *s, char **tmp_cmd, char *tmp_path, int i)
 {
 	if (open(tmp_path, O_RDONLY) != -1)
 	{
-		s->cmd[i] = ft_strdup(tmp_path);
-		if (!s->cmd[i])
+		s->cmd_path[i] = ft_strdup(tmp_path);
+		if (!s->cmd_path[i])
 		{
 			free_tab(tmp_cmd);
 			free(tmp_path);
@@ -37,7 +37,7 @@ void	find_good_path(t_struct *s, char **av)
 	char	**tmp_cmd;
 
 	i = -1;
-	s->cmd = malloc(sizeof(char *) * (2 + 1));
+	s->cmd_path = malloc(sizeof(char *) * (2 + 1));
 	while (++i < 2)
 	{
 		j = -1;

@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 10:40:50 by mberne            #+#    #+#             */
-/*   Updated: 2021/08/25 11:09:12 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/08/26 14:58:46 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,20 @@ typedef struct s_struct
 	int		fd_infile;
 	int		fd_outfile;
 	char	**paths;
-	char	**cmd;
+	char	**cmd_path;
 }	t_struct;
 
 int		main(int ac, char **av, char **envp);
 void	take_arguments(t_struct *fd, int ac, char **av);
+
 void	find_commands_paths(t_struct *s, char **envp);
 void	set_paths(t_struct *s);
 void	find_good_path(t_struct *s, char **av);
+void	test_path(t_struct *s, char **tmp_cmd, char *tmp_path, int i);
 
-void	son_fork(t_struct *fd, int pipefd[2]);
-void	dad_fork(t_struct *fd, int pipefd[2]);
+void	first_son_fork(t_struct *fd, int pipefd[2], char **av);
+void	second_son_fork(t_struct *fd, int pipefd[2], char **av);
+void	dad_fork(t_struct *fd, int pipefd[2], char **av);
 
 void	free_tab(char **tab);
 void	ft_exit(t_struct *s, char *error);

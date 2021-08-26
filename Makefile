@@ -13,7 +13,7 @@ LIBFT		= libft.a
 
 #Other
 OBJS		= $(SRCS:.c=.o)
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 RM			= rm -f
 
 all bonus:	libs $(NAME)
