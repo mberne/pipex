@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 11:47:21 by mberne            #+#    #+#             */
-/*   Updated: 2021/08/26 13:47:13 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/09/06 15:37:06 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	test_path(t_struct *s, char **tmp_cmd, char *tmp_path, int i)
 			free_tab(tmp_cmd);
 			free(tmp_path);
 			ft_exit(s, "malloc");
+			exit(EXIT_FAILURE);
 		}
 		free(tmp_path);
 	}
@@ -43,7 +44,10 @@ void	find_good_path(t_struct *s, char **av)
 		j = -1;
 		tmp_cmd = ft_split(av[i + 2], ' ');
 		if (!tmp_cmd)
+		{
 			ft_exit(s, "malloc");
+			exit(EXIT_FAILURE);
+		}
 		while (s->paths[++j])
 		{
 			tmp_path = ft_strjoin(s->paths[j], tmp_cmd[0]);
@@ -51,6 +55,7 @@ void	find_good_path(t_struct *s, char **av)
 			{
 				free_tab(tmp_cmd);
 				ft_exit(s, "malloc");
+				exit(EXIT_FAILURE);
 			}
 			test_path(s, tmp_cmd, tmp_path, i);
 		}
@@ -67,7 +72,10 @@ void	set_paths(t_struct *s)
 	{
 		s->paths[i] = ft_strjoin(s->paths[i], "/");
 		if (!s->paths[i])
+		{
 			ft_exit(s, "malloc");
+			exit(EXIT_FAILURE);
+		}
 		i++;
 	}
 }
@@ -84,7 +92,10 @@ void	find_commands_paths(t_struct *s, char **envp)
 		{
 			path = ft_strdup(envp[i]);
 			if (!path)
+			{
 				ft_exit(s, "malloc");
+				exit(EXIT_FAILURE);
+			}
 		}
 		i++;
 	}
@@ -93,6 +104,9 @@ void	find_commands_paths(t_struct *s, char **envp)
 	path -= 5;
 	free(path);
 	if (!s->paths)
+	{
 		ft_exit(s, "malloc");
+		exit(EXIT_FAILURE);
+	}
 	set_paths(s);
 }

@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 17:10:22 by mberne            #+#    #+#             */
-/*   Updated: 2021/08/26 14:58:58 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/09/06 15:34:38 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,4 @@ void	ft_exit(t_struct *s, char *error)
 	free_tab(s->paths);
 	free_tab(s->cmd_path);
 	perror(error);
-	exit(EXIT_FAILURE);
 }
