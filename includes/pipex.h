@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 10:40:50 by mberne            #+#    #+#             */
-/*   Updated: 2021/08/26 14:58:46 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/04 16:29:23 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_struct
 {
 	int		fd_infile;
 	int		fd_outfile;
+	int		num_pipes;
 	char	**paths;
 	char	**cmd_path;
 }	t_struct;
@@ -41,6 +42,6 @@ void	second_son_fork(t_struct *fd, int pipefd[2], char **av);
 void	dad_fork(t_struct *fd, int pipefd[2], char **av);
 
 void	free_tab(char **tab);
-void	ft_exit(t_struct *s, char *error);
+void	ft_exit(t_struct *s, char *error, int exit_status);
 
 #endif

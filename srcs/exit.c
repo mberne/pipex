@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 17:10:22 by mberne            #+#    #+#             */
-/*   Updated: 2021/09/06 15:34:38 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/04 17:43:38 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_tab(char **tab)
 	}
 }
 
-void	ft_exit(t_struct *s, char *error)
+void	ft_exit(t_struct *s, char *error, int exit_status)
 {
 	if (s->fd_infile >= 0)
 		close(s->fd_infile);
@@ -35,5 +35,7 @@ void	ft_exit(t_struct *s, char *error)
 		close(s->fd_outfile);
 	free_tab(s->paths);
 	free_tab(s->cmd_path);
-	perror(error);
+	if (exit_status == EXIT_FAILURE)
+		perror(error);
+	exit(exit_status);
 }
