@@ -6,18 +6,11 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 16:50:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/03/05 10:57:54 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/09/28 15:09:00 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int	is_sep(char s, char c)
-{
-	if (s == c)
-		return (1);
-	return (0);
-}
 
 static int	ft_countwords(char const *s, char c)
 {
@@ -33,7 +26,7 @@ static int	ft_countwords(char const *s, char c)
 	return (i);
 }
 
-char	**ft_free_split(char **tab, int i)
+static char	**ft_free_split(char **tab, int i)
 {
 	while (--i >= 0)
 		free(tab[i]);
@@ -53,10 +46,10 @@ char	**ft_split(char const *s, char c)
 		return (0);
 	while (*s)
 	{
-		while (*s && is_sep(*s, c) == 1)
+		while (*s && *s == c)
 			s++;
 		start = (char *)s;
-		while (*s && is_sep(*s, c) == 0)
+		while (*s && *s != c)
 			s++;
 		if (s != start)
 		{

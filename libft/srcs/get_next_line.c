@@ -6,13 +6,13 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 10:56:11 by mberne            #+#    #+#             */
-/*   Updated: 2021/03/05 11:38:28 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/09/30 10:16:00 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strchr_gnl(const char *s)
+static int	ft_strchr_gnl(const char *s)
 {
 	if (!s)
 		return (0);
@@ -25,7 +25,7 @@ int	ft_strchr_gnl(const char *s)
 	return (0);
 }
 
-char	*get_buffer(char *str)
+static char	*get_buffer(char *str)
 {
 	int		i;
 	char	*buffer;
@@ -42,7 +42,7 @@ char	*get_buffer(char *str)
 	return (buffer);
 }
 
-char	*get_line(char *str)
+static char	*get_line(char *str)
 {
 	int		i;
 	char	*line;
@@ -58,7 +58,7 @@ char	*get_line(char *str)
 	return (line);
 }
 
-int	fill_buffer(char **buffer, int fd, int *return_read, char **tmp)
+static int	fill_buffer(char **buffer, int fd, int *return_read, char **tmp)
 {
 	while (ft_strchr_gnl(*buffer) == 0 && *return_read != 0)
 	{
@@ -69,7 +69,7 @@ int	fill_buffer(char **buffer, int fd, int *return_read, char **tmp)
 			return (-1);
 		}
 		(*tmp)[*return_read] = '\0';
-		*buffer = ft_strjoin(*buffer, *tmp);
+		*buffer = ft_strjoin_free_s1(*buffer, *tmp);
 		if (!*buffer)
 		{
 			free(*tmp);

@@ -1,42 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   put_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/24 09:57:34 by mberne            #+#    #+#             */
-/*   Updated: 2021/03/05 10:47:08 by mberne           ###   ########lyon.fr   */
+/*   Created: 2020/11/26 11:32:36 by mberne            #+#    #+#             */
+/*   Updated: 2021/09/29 16:42:33 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
-	int	n;
-	int	nb;
-	int	len;
 
 	i = 0;
-	n = 1;
-	nb = 0;
-	len = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '-')
-		n *= (-1);
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	while (str[i] >= 48 && str[i] <= 57)
+	if (s != 0)
 	{
-		nb = nb * 10 + (str[i++] - '0');
-		len++;
+		while (s[i])
+		{
+			ft_putchar_fd(s[i], fd);
+			i++;
+		}
 	}
-	if (len > 18 && n == (-1))
-		return (0);
-	else if (len > 18 && n == 1)
-		return (-1);
-	return (nb * n);
+}
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	long int	i;
+
+	i = n;
+	if (i < 0)
+	{
+		ft_putchar_fd('-', fd);
+		i = -i;
+	}
+	if (i > 9)
+		ft_putnbr_fd(i / 10, fd);
+	ft_putchar_fd(i % 10 + 48, fd);
 }

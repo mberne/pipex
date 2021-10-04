@@ -1,40 +1,47 @@
-NAME		= pipex
+NAME		=	pipex
 
 #Sources
-PATH_SRCS	= srcs/
-SRCS		= $(addprefix $(PATH_SRCS), main.c command_path.c forks.c exit.c)
+PATH_SRC	=	srcs/
+SRC			=					\
+				main.c			\
+				command_path.c	\
+				forks.c			\
+				exit.c			\
 
 #Includes
-PATH_INC	= includes/
-HEADER		= $(addprefix $(PATH_INC), pipex.h)
+PATH_INC	=	includes/
+HEADER		=	$(addprefix $(PATH_INC), pipex.h)
+
+#Objects
+PATH_OBJ	=	objs/
+OBJ			=	$(addprefix $(PATH_OBJ), $(SRC:.c=.o))
 
 #Libs
 LIBFT		= libft.a
 
 #Other
-OBJS		= $(SRCS:.c=.o)
 CFLAGS		= -Wall -Wextra -Werror
-RM			= rm -f
 
 all bonus:	libs $(NAME)
 
-$(NAME):	$(OBJS) $(LIBFT)
-			gcc $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -I $(PATH_INC)
+$(PATH_OBJ)%.o:		$(PATH_SRC)%.c	$(HEADER)
+			@mkdir -p $(dir $@)
+			gcc $(CFLAGS) -c $< -o $@ -I $(PATH_INC)
+
+$(NAME):	$(OBJ) $(LIBFT)
+			gcc $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) -I $(PATH_INC)
 
 libs:
 			$(MAKE) -C libft
 			ln -sf libft/$(LIBFT) .
 
-%.o:		%.c	$(HEADER)
-			gcc $(CFLAGS) -c $< -o ${<:.c=.o} -I $(PATH_INC)
-
 clean:
 			${MAKE} clean -C libft
-			$(RM) $(OBJS)
+			rm -f $(OBJS)
 
 fclean:		
 			${MAKE} fclean -C libft
-			$(RM) $(OBJS) $(NAME) $(LIBFT)
+			rm -f $(OBJS) $(NAME) $(LIBFT)
 
 re:			fclean all
 
