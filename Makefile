@@ -22,7 +22,7 @@ CFLAGS		= -Wall -Wextra -Werror
 
 all bonus:	libs $(NAME)
 
-$(PATH_OBJ)%.o:		$(PATH_SRC)%.c	$(HEADER)
+$(PATH_OBJ)%.o:		$(PATH_SRC)%.c	$(HEADER) $(LIBFT)
 			@mkdir -p $(dir $@)
 			gcc $(CFLAGS) -c $< -o $@ -I $(PATH_INC)
 

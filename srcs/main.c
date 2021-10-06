@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 10:40:38 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/06 15:13:14 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 17:34:58 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,15 @@ void	take_arguments(t_struct *s, int ac, char **av)
 		ft_exit(s, "open", EXIT_FAILURE);
 	s->cmd = malloc(sizeof(char *) * (s->num_cmd + 1));
 	s->cmd_path = malloc(sizeof(char *) * (s->num_cmd + 1));
+	s->pid = malloc(sizeof(pid_t) * s->num_cmd);
+	if (!s->cmd || !s->cmd_path || !s->pid)
+		ft_exit(s, "malloc", EXIT_FAILURE);
 	i = 0;
 	while (i < s->num_cmd)
 	{
 		s->cmd_path[i] = NULL;
 		i++;
 	}
-	if (!s->cmd || !s->cmd_path)
-		ft_exit(s, "malloc", EXIT_FAILURE);
-	s->pid = malloc(sizeof(pid_t) * s->num_cmd);
 }
 
 int	main(int ac, char **av, char **envp)
