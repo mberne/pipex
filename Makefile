@@ -5,8 +5,6 @@ PATH_SRC	=	srcs/
 SRC			=					\
 				main.c			\
 				command_path.c	\
-				forks.c			\
-				exit.c			\
 
 #Includes
 PATH_INC	=	includes/

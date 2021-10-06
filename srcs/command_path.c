@@ -6,58 +6,61 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 11:47:21 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/04 17:51:18 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 15:12:52 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	test_path(t_struct *s, char **tmp_cmd, char *tmp_path, int i)
+void	test_path(t_struct *s, char **tmp_cmd, int i)
 {
-	if (open(tmp_path, O_RDONLY) != -1)
+	int		j;
+	char	*tmp_path;
+
+	j = 0;
+	while (s->paths[j])
 	{
-		s->cmd_path[i] = ft_strdup(tmp_path);
-		if (!s->cmd_path[i])
+		tmp_path = ft_strjoin(s->paths[j], tmp_cmd[0]);
+		if (!tmp_path)
 		{
-			free_tab(tmp_cmd);
-			free(tmp_path);
+			free_tab(tmp_cmd, 0);
 			ft_exit(s, "malloc", EXIT_FAILURE);
 		}
+		if (open(tmp_path, O_RDONLY) != -1)
+		{
+			s->cmd_path[i] = ft_strdup(tmp_path);
+			if (!s->cmd_path[i])
+			{
+				free_tab(tmp_cmd, 0);
+				free(tmp_path);
+				ft_exit(s, "malloc", EXIT_FAILURE);
+			}
+		}
 		free(tmp_path);
+		j++;
 	}
-	else
-		free(tmp_path);
-	if (i + 1 == s->num_pipes)
-		s->cmd_path[i + 1] = 0;
 }
 
 void	find_good_path(t_struct *s, char **av)
 {
 	int		i;
-	int		j;
-	char	*tmp_path;
 	char	**tmp_cmd;
 
-	i = -1;
-	s->cmd_path = malloc(sizeof(char *) * (s->num_pipes + 1));
-	while (++i < s->num_pipes)
+	i = 0;
+	while (i < s->num_cmd)
 	{
-		j = -1;
-		tmp_cmd = ft_split(av[i + 2], ' ');
+		s->cmd[i] = ft_strdup(av[i + 2]);
+		if (!s->cmd[i])
+			ft_exit(s, "malloc", EXIT_FAILURE);
+		tmp_cmd = ft_split(s->cmd[i], ' ');
 		if (!tmp_cmd)
 			ft_exit(s, "malloc", EXIT_FAILURE);
-		while (s->paths[++j])
-		{
-			tmp_path = ft_strjoin(s->paths[j], tmp_cmd[0]);
-			if (!tmp_path)
-			{
-				free_tab(tmp_cmd);
-				ft_exit(s, "malloc", EXIT_FAILURE);
-			}
-			test_path(s, tmp_cmd, tmp_path, i);
-		}
-		free_tab(tmp_cmd);
+		test_path(s, tmp_cmd, i);
+		free_tab(tmp_cmd, 0);
+		i++;
 	}
+	s->cmd_path[i] = 0;
+	s->cmd[i] = 0;
 }
 
 void	set_paths(t_struct *s)
@@ -90,9 +93,7 @@ void	find_commands_paths(t_struct *s, char **envp)
 		}
 		i++;
 	}
-	path += 5;
-	s->paths = ft_split(path, ':');
-	path -= 5;
+	s->paths = ft_split(path + 5, ':');
 	free(path);
 	if (!s->paths)
 		ft_exit(s, "malloc", EXIT_FAILURE);

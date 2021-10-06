@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calloc.c                                           :+:      :+:    :+:   */
+/*   mem.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 08:54:58 by mberne            #+#    #+#             */
-/*   Updated: 2021/09/28 13:34:34 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 15:09:49 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,24 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	while ((str1[i] == str2[i]) && (i < n - 1))
 		i++;
 	return (str1[i] - str2[i]);
+}
+
+void	free_tab(char **tab, int size)
+{
+	int	i;
+
+	i = 0;
+	if (tab && size)
+	{
+		while (size-- <= 0)
+			free(tab[size]);
+	}
+	else if (tab)
+	{
+		while (tab[i])
+			i++;
+		while (--i >= 0)
+			free(tab[i]);
+		free(tab);
+	}
 }

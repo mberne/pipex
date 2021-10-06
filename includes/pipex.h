@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 10:40:50 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/04 16:29:23 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 15:10:04 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,29 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include "../libft/includes/libft.h"
+# define READ 0
+# define WRITE 1
 
 typedef struct s_struct
 {
 	int		fd_infile;
 	int		fd_outfile;
-	int		num_pipes;
+	int		num_cmd;
 	char	**paths;
+	char	**cmd;
 	char	**cmd_path;
+	pid_t	*pid;
 }	t_struct;
 
 int		main(int ac, char **av, char **envp);
 void	take_arguments(t_struct *fd, int ac, char **av);
+void	pipex(t_struct *s);
+pid_t	launch_command(t_struct *s, int in, int out, int i);
+void	ft_exit(t_struct *s, char *error, int exit_status);
 
 void	find_commands_paths(t_struct *s, char **envp);
 void	set_paths(t_struct *s);
 void	find_good_path(t_struct *s, char **av);
-void	test_path(t_struct *s, char **tmp_cmd, char *tmp_path, int i);
-
-void	first_son_fork(t_struct *fd, int pipefd[2], char **av);
-void	second_son_fork(t_struct *fd, int pipefd[2], char **av);
-void	dad_fork(t_struct *fd, int pipefd[2], char **av);
-
-void	free_tab(char **tab);
-void	ft_exit(t_struct *s, char *error, int exit_status);
+void	test_path(t_struct *s, char **tmp_cmd, int i);
 
 #endif
