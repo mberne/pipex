@@ -35,11 +35,11 @@ libs:
 
 clean:
 			${MAKE} clean -C libft
-			rm -f $(OBJS)
+			rm -f $(OBJ)
 
 fclean:		
 			${MAKE} fclean -C libft
-			rm -f $(OBJS) $(NAME) $(LIBFT)
+			rm -f $(OBJ) $(NAME) $(LIBFT)
 
 re:			fclean all
 
