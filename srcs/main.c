@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 10:40:38 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/06 17:34:58 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/07 14:22:24 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,16 @@ void	pipex(t_struct *s)
 	{
 		if (pipe(pipefd) == -1)
 			ft_exit(s, "pipe", EXIT_FAILURE);
-		s->pid[i] = launch_command(s, in, pipefd[WRITE], i);
-		in = pipefd[READ];
+		s->pid[i] = launch_command(s, in, pipefd[1], i);
+		in = pipefd[0];
 		i++;
 	}
 	s->pid[i] = launch_command(s, in, s->fd_outfile, i);
 	i = 0;
 	while (i < s->num_cmd)
 	{
-		waitpid(s->pid[i], NULL, 1);
+		if (waitpid(s->pid[i], NULL, WUNTRACED) == -1)
+			ft_exit(s, "waitpid", EXIT_FAILURE);
 		i++;
 	}
 }

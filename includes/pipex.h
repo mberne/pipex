@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 10:40:50 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/06 15:10:04 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/07 14:12:26 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include "../libft/includes/libft.h"
-# define READ 0
-# define WRITE 1
 
 typedef struct s_struct
 {
