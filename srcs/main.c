@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 10:40:38 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/07 16:50:56 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/08 15:31:39 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ void	take_arguments(t_struct *s, int ac, char **av)
 		exit(EXIT_FAILURE);
 	s->num_cmd = ac - 3;
 	s->fd_infile = open(av[1], O_RDONLY);
-	s->fd_outfile = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC);
+	s->fd_outfile = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC,
+			S_IRWXU, S_IRWXG, S_IRWXO);
 	if (s->fd_infile == -1 || s->fd_outfile == -1)
 		ft_exit(s, "open", EXIT_FAILURE);
 	s->cmd = malloc(sizeof(char *) * (s->num_cmd + 1));
